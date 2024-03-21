@@ -22,7 +22,6 @@ namespace Elevator
             Input = new Queue<string>();
             Up = new List<string>();
             Down = new List<string>();
-            Directions = true;
             Head = 3;
             Use = true;
 
@@ -98,8 +97,22 @@ namespace Elevator
         }
         public void Use_Elevator()
         {
-            while (Use)
+            if(Up.Count > 0 && Down.Count > 0)
             {
+                if(Head >= Floor[Down[Down.Count - 1]])
+                    Directions = false;
+                else Directions = true;
+            }
+            if(Up.Count > 0 && Down.Count == 0)
+            {
+                Directions = true ;
+            }
+            if (Up.Count == 0 && Down.Count > 0)
+            {
+                Directions = false;
+            }
+            while (Use)
+            {             
                 ScanE();
             }
         }
