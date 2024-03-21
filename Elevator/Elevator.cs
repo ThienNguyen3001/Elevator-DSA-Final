@@ -105,20 +105,26 @@ namespace Elevator
         }
         private void ScanE()
         {
-            if (Directions)
+            while (Up.Count > 0 && Directions)
             {
-                while (Up.Count > 0)
+                for (int i = 0; i < Up.Count(); i++)
                 {
-                    Run(Floor[Up[0]]);
-                    Up.RemoveAt(0);
+                    if (Head < Floor[Up[i]])
+                    {
+                        Run(Floor[Up[i]]);
+                        Up.RemoveAt(i);
+                    }
                 }
             }
-            else
+            while (Down.Count > 0 && !Directions)
             {
-                while (Down.Count > 0)
+                for (int i = Down.Count - 1; i >= 0; i--)
                 {
-                    Run(Floor[Down[Down.Count - 1]]);
-                    Down.RemoveAt(Down.Count - 1);
+                    if (Head > Floor[Down[i]])
+                    {
+                        Run(Floor[Down[Down.Count - 1]]);
+                        Down.RemoveAt(Down.Count - 1);
+                    }
                 }
             }
         }
