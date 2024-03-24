@@ -13,15 +13,15 @@ namespace Elevator
         private Dictionary<string, int> Floor = new Dictionary<string, int>();
         private int Head; // vị trí thang máy hiện tại
         private bool Directions; //true = up, false = down
-        private List<string> Up;
-        private List<string> Down;
+        private List<int> Up;
+        private List<int> Down;
         private Queue<string> Input;
         public bool Use;
         private Elevator()
         {
             Input = new Queue<string>();
-            Up = new List<string>();
-            Down = new List<string>();
+            Up = new List<int>();
+            Down = new List<int>();
             Head = 3;
             Use = true;
 
@@ -59,39 +59,38 @@ namespace Elevator
                 string check = Input.Dequeue();
                 if (D_elevator[check])
                 {
-                    InsertU(check);
+                    InsertU(Floor[check]);
                 }
                 else
                 {
-                    InsertD(check);
+                    InsertD(Floor[check]);
                 }
             }
         }
-        private void InsertU(string buttom)
+        private void InsertU(int buttom)
         {
             Up.Add(buttom);
             Up = InsertionSort(Up);
         }
-        private void InsertD(string buttom)
+        private void InsertD(int buttom)
         {
             Down.Add(buttom);
             Down = InsertionSort(Down);
         }
-        private List<string> InsertionSort(List<string> a)
+        private List<int> InsertionSort(List<int> a)
         {
             if (a.Count == 0) { return null; }
             for (int i = 1; i < a.Count; i++)
             {
-                int key = Floor[a[i]];
-                string temp = a[i];
+                int key = a[i];               
                 int j = i - 1;
               
-                while (j >= 0 && Floor[a[j]] > key)
+                while (j >= 0 && a[j] > key)
                 {
                     a[j + 1] = a[j];
                     j--;
                 }
-                a[j + 1] = temp;
+                a[j + 1] = key;
             }
             return a;
         }
@@ -99,7 +98,7 @@ namespace Elevator
         {
             if(Up.Count > 0 && Down.Count > 0)
             {
-                if(Head >= Floor[Down[Down.Count - 1]])
+                if(Head >= Down[Down.Count - 1])
                     Directions = false;
                 else Directions = true;
             }
@@ -122,9 +121,9 @@ namespace Elevator
             {
                 for (int i = 0; i < Up.Count(); i++)
                 {
-                    if (Head < Floor[Up[i]])
+                    if (Head < Up[i])
                     {
-                        Run(Floor[Up[i]]);
+                        Run(Up[i]);
                         Up.RemoveAt(i);
                     }
                 }
@@ -133,10 +132,10 @@ namespace Elevator
             {
                 for (int i = Down.Count - 1; i >= 0; i--)
                 {
-                    if (Head > Floor[Down[i]])
+                    if (Head > Down[i])
                     {
-                        Run(Floor[Down[Down.Count - 1]]);
-                        Down.RemoveAt(Down.Count - 1);
+                        Run(Down[i]);
+                        Down.RemoveAt(i);
                     }
                 }
             }
