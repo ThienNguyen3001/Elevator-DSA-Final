@@ -10,6 +10,8 @@ namespace Elevator
     {
         static void Main(string[] args)
         {
+            Elevator thangmay = new Elevator();
         }
+        
     }
 }

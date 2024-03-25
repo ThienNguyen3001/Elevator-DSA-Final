@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace Elevator
 {
-    internal class Elevator
+    public class Elevator
     {
-        private Dictionary<string, bool> D_elevator = new Dictionary<string, bool>();
-        private Dictionary<string, int> Floor = new Dictionary<string, int>();
-        private int Head; // vị trí thang máy hiện tại
+        private static Dictionary<string, bool> D_elevator = new Dictionary<string, bool>();
+        private static Dictionary<string, int> Floor = new Dictionary<string, int>();
+        public int Head; // vị trí thang máy hiện tại
         private bool Directions; //true = up, false = down
         private List<int> Up;
         private List<int> Down;
         private Queue<string> Input;
         public bool Use;
-        private Elevator()
+        public Elevator() 
         {
             Input = new Queue<string>();
             Up = new List<int>();
