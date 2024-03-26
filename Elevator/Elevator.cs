@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Elevator
             Input = new Queue<string>();
             Up = new List<int>();
             Down = new List<int>();
-            Head = 3;
+            Head = 1;
             Use = true;
 
             D_elevator.Add("1", false);
@@ -119,7 +120,7 @@ namespace Elevator
         {
             while (Up.Count > 0 && Directions)
             {
-                for (int i = 0; i < Up.Count(); i++)
+                for (int i = 0; i < Up.Count();)
                 {
                     if (Head < Up[i])
                     {
@@ -127,19 +128,21 @@ namespace Elevator
                         Run(Up[i]);
                         Up.RemoveAt(i);
                     }
+                    else
+                        i++;
                 }
             }
             while (Down.Count > 0 && !Directions)
             {
-                for (int i = Down.Count - 1; i >= 0; i--)
+                for (int i = Down.Count - 1; i >= 0;i--)
                 {
                     if (Head > Down[i])
                     {
                         Head = Down[i];
                         Run(Down[i]);
                         Down.RemoveAt(i);
-                    }
-                }
+                    }                                          
+                }      
             }
         }
         private void Run(int floor)
