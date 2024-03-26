@@ -110,7 +110,7 @@ namespace Elevator
             {
                 Directions = false;
             }
-            while (Use)
+            while (Use && (Up.Count >0 || Down.Count > 0))
             {             
                 ScanE();
             }
@@ -123,6 +123,7 @@ namespace Elevator
                 {
                     if (Head < Up[i])
                     {
+                        Head = Up[i];
                         Run(Up[i]);
                         Up.RemoveAt(i);
                     }
@@ -134,6 +135,7 @@ namespace Elevator
                 {
                     if (Head > Down[i])
                     {
+                        Head = Down[i];
                         Run(Down[i]);
                         Down.RemoveAt(i);
                     }
@@ -146,7 +148,7 @@ namespace Elevator
             {
                 Directions = !Directions;
             }
-
+            
             Console.WriteLine(floor);
         }
     }

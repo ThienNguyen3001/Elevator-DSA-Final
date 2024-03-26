@@ -10,7 +10,8 @@ namespace Elevator
     public class User
     {
         private Elevator elevator; // Thêm một thuộc tính Elevator vào lớp User
-
+        static Dictionary<int, string> UserU = new Dictionary<int, string>();
+        static Dictionary<int, string> UserD = new Dictionary<int, string>();
         public User(Elevator elevator) // Thêm một constructor nhận Elevator làm tham số
         {
             this.elevator = elevator;
@@ -27,12 +28,10 @@ namespace Elevator
             UserD.Add(4, "4D");
             UserD.Add(5, "5D");
         }
-        static Dictionary<int, string> UserU = new Dictionary<int, string>();
-        static Dictionary<int, string> UserD = new Dictionary<int, string>();
-        
+              
         static void User_inE(Elevator elevator)
         {
-            while (true)
+            while (elevator.Use)
             {
                 ConsoleKeyInfo key = Console.ReadKey();
                 int k = int.Parse(key.KeyChar.ToString()); ;
