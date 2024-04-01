@@ -10,6 +10,7 @@ namespace Elevator
     public class User
     {
         private Elevator elevator; // Thêm một thuộc tính Elevator vào lớp User
+        private bool isUserActive = true;
         static Dictionary<int, string> UserU = new Dictionary<int, string>();
         static Dictionary<int, string> UserD = new Dictionary<int, string>();
         public User(Elevator elevator) // Thêm một constructor nhận Elevator làm tham số
@@ -28,30 +29,28 @@ namespace Elevator
             UserD.Add(4, "4D");
             UserD.Add(5, "5D");
         }
-              
-        static void User_inE(Elevator elevator)
+        public void StopUser()
         {
-            while (elevator.Use)
+            isUserActive = false; // Thiết lập biến để kết thúc vòng lặp trong hàm User_inE
+        }
+
+        public void User_inE(int Head, int k)
+        {
+            if (k >= 1 && k <= 6)
             {
-                ConsoleKeyInfo key = Console.ReadKey();
-                int k = int.Parse(key.KeyChar.ToString()); ;
-                if (k < 1 || k > 6)
+                if (k > elevator.Head)
                 {
-                    continue;
+                    elevator.Insert(UserU[k]);
                 }
                 else
                 {
-                    if (k > elevator.Head)
-                    {
-                        elevator.Insert(UserU[k]);
-                    }
-                    else
-                    {
-                        elevator.Insert(UserD[k]);
-                    }
+                    elevator.Insert(UserD[k]);
                 }
             }
+            else
+            {
+                Console.WriteLine("kochay");
+            }
         }
-
     }
 }

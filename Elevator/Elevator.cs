@@ -23,7 +23,7 @@ namespace Elevator
             Input = new Queue<string>();
             Up = new List<int>();
             Down = new List<int>();
-            Head = 1;
+            Head = 3;
             Use = true;
 
             D_elevator.Add("1", false);
@@ -55,6 +55,7 @@ namespace Elevator
         }
         private void InsertE(string buttom)
         {
+            
             while(Input.Count > 0)
             {
                 string check = Input.Dequeue();
@@ -67,14 +68,25 @@ namespace Elevator
                     InsertD(Floor[check]);
                 }
             }
+            
         }
         private void InsertU(int buttom)
         {
+            foreach(int c in Up)
+            {
+                if (c == buttom)
+                    return;
+            }
             Up.Add(buttom);
             Up = InsertionSort(Up);
         }
         private void InsertD(int buttom)
         {
+            foreach(int c in Down)
+            {
+                if (c == buttom)
+                    return;
+            }
             Down.Add(buttom);
             Down = InsertionSort(Down);
         }
@@ -96,55 +108,69 @@ namespace Elevator
             return a;
         }
         public void Use_Elevator()
-        {
-            if(Up.Count > 0 && Down.Count > 0)
-            {
-                if(Head >= Down[Down.Count - 1])
+        {           
+                if (Up.Count > 0 && Down.Count > 0)
+                {
+                    if (Head >= Down[Down.Count - 1])
+                        Directions = false;
+                    else Directions = true;
+                }
+                if (Up.Count > 0 && Down.Count == 0)
+                {
+                    Directions = true;
+                }
+                if (Up.Count == 0 && Down.Count > 0)
+                {
                     Directions = false;
-                else Directions = true;
-            }
-            if(Up.Count > 0 && Down.Count == 0)
-            {
-                Directions = true ;
-            }
-            if (Up.Count == 0 && Down.Count > 0)
-            {
-                Directions = false;
-            }
-            while (Use && (Up.Count >0 || Down.Count > 0))
-            {             
-                ScanE();
-            }
+                }
+                while (Use && (Up.Count > 0 || Down.Count > 0))
+                {
+                    ScanE();
+                }                     
         }
         private void ScanE()
         {
             while (Up.Count > 0 && Directions)
             {
                 for (int i = 0; i < Up.Count();)
-                {
+                {                   
                     if (Head < Up[i])
                     {
                         Head = Up[i];
-                        Run(Up[i]);
+                        Run(Head);
                         Up.RemoveAt(i);
                     }
                     else
+                    {
                         i++;
+                        if (i == Up.Count)
+                        {
+                            if (Head == Down[Down.Count -1])
+                                Down.RemoveAt(Down.Count - 1);
+                            Directions = !Directions;
+                            break;
+                        }           
+                    }         
                 }
             }
             while (Down.Count > 0 && !Directions)
             {
-                for (int i = Down.Count - 1; i >= 0;i--)
-                {
+                for (int i = Down.Count - 1; i >= 0; i--)
+                {                    
                     if (Head > Down[i])
                     {
                         Head = Down[i];
-                        Run(Down[i]);
+                        Run(Head);
                         Down.RemoveAt(i);
-                    }                                          
+                        if (i == 0 && Head == Up[0])
+                        {
+                            Up.RemoveAt(0);
+                            Directions = !Directions;
+                        }                                                  
+                    }                   
                 }      
             }
-        }
+        }       
         private void Run(int floor)
         {
             if(Head == 1 || Head == 6)
@@ -152,7 +178,7 @@ namespace Elevator
                 Directions = !Directions;
             }
             
-            Console.WriteLine(floor);
+            Console.WriteLine("Moving to floor " + floor);
         }
     }
 }
