@@ -141,16 +141,15 @@ namespace Elevator
                         Up.RemoveAt(i);
                     }
                     else
-                    {                        
-                        if (i == Up.Count - 1 && Down.Count > 0)
-                        {
-                            if (Head == Down[Down.Count -1])
-                                Down.RemoveAt(Down.Count - 1);                           
-                            break;
-                        }
-                        i++;
-                    }         
+                    {
+                        i++;                                               
+                    }
+                    
                 }
+                if (Down.Count > 0 && Head == Down[Down.Count - 1]) 
+                {
+                        Down.RemoveAt(Down.Count - 1);
+                }               
                 Directions = !Directions;
             }
             while (Down.Count > 0 && !Directions)
@@ -162,13 +161,12 @@ namespace Elevator
                         Head = Down[i];
                         Run(Head);
                         Down.RemoveAt(i);
-                        if (i == 0 && Up.Count > 0)
-                        {
-                            if(Head == Up[0])
-                                Up.RemoveAt(0);
-                            break;
-                        }                                                  
+                                                                          
                     }                   
+                }
+                if (Up.Count > 0 && Head == Up[0])
+                {
+                        Up.RemoveAt(0);                   
                 }
                 Directions = !Directions;
             }
