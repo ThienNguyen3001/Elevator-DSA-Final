@@ -143,8 +143,7 @@ namespace Elevator
                     else
                     {
                         i++;                                               
-                    }
-                    
+                    }                   
                 }
                 if (Down.Count > 0 && Head == Down[Down.Count - 1]) 
                 {
