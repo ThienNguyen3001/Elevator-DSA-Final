@@ -23,7 +23,7 @@ namespace Elevator
             Input = new Queue<string>();
             Up = new List<int>();
             Down = new List<int>();
-            Head = 3;
+            Head = 1;
             Use = true;
 
             D_elevator.Add("1", false);
@@ -141,17 +141,17 @@ namespace Elevator
                         Up.RemoveAt(i);
                     }
                     else
-                    {
-                        i++;
-                        if (i == Up.Count)
+                    {                        
+                        if (i == Up.Count - 1 && Down.Count > 0)
                         {
                             if (Head == Down[Down.Count -1])
-                                Down.RemoveAt(Down.Count - 1);
-                            Directions = !Directions;
+                                Down.RemoveAt(Down.Count - 1);                           
                             break;
-                        }           
+                        }
+                        i++;
                     }         
                 }
+                Directions = !Directions;
             }
             while (Down.Count > 0 && !Directions)
             {
@@ -162,13 +162,15 @@ namespace Elevator
                         Head = Down[i];
                         Run(Head);
                         Down.RemoveAt(i);
-                        if (i == 0 && Head == Up[0])
+                        if (i == 0 && Up.Count > 0)
                         {
-                            Up.RemoveAt(0);
-                            Directions = !Directions;
+                            if(Head == Up[0])
+                                Up.RemoveAt(0);
+                            break;
                         }                                                  
                     }                   
-                }      
+                }
+                Directions = !Directions;
             }
         }       
         private void Run(int floor)
