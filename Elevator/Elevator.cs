@@ -114,7 +114,7 @@ namespace Elevator
             }
             if (Up.Count > 0 && Down.Count > 0)
             {
-                if (Head >= Down[Down.Count - 1])
+                if (Head >= Down[Down.Count - 1])//23
                     Directions = false;
                 else Directions = true;
             }           
@@ -125,7 +125,7 @@ namespace Elevator
         }
         private void ScanE()
         {
-            while (Up.Count > 0 && Directions)
+            if (Up.Count > 0 && Directions)
             {
                 for (int i = 0; i < Up.Count();)
                 {                   
@@ -144,7 +144,7 @@ namespace Elevator
                     Down.RemoveAt(Down.Count - 1);
                 Directions = !Directions;
             }
-            while (Down.Count > 0 && !Directions)
+            if (Down.Count > 0 && !Directions)
             {
                 for (int i = Down.Count - 1; i >= 0; i--)
                 {                    
