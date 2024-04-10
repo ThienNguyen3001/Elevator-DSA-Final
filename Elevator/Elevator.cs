@@ -55,14 +55,14 @@ namespace Elevator
         }
         private void InsertE()
         {
-            string buttom = Input.Dequeue();
-            if (D_elevator[buttom])
+            string decision = Input.Dequeue();
+            if (D_elevator[decision])
             {
-                InsertU(Floor[buttom]);
+                InsertU(Floor[decision]);
             }
             else
             {
-                InsertD(Floor[buttom]);
+                InsertD(Floor[decision]);
             }
         }
         private void InsertU(int buttom)
