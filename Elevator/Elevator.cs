@@ -23,7 +23,7 @@ namespace Elevator
             Input = new Queue<string>();
             Up = new List<int>();
             Down = new List<int>();
-            position = 4;
+            position = 1;
             Use = true;
 
             D_elevator.Add("1", false);
@@ -104,29 +104,35 @@ namespace Elevator
         }
         public void Use_Elevator()
         {
-            if (Up.Count > 0 && Down.Count == 0)
-            {
-                Directions = true;
-            }
-            if (Up.Count == 0 && Down.Count > 0)
-            {
-                Directions = false;
-            }
-            if (Up.Count > 0 && Down.Count > 0)
-            {
-                if (position >= Down[Down.Count - 1])//23
-                    Directions = false;
-                else Directions = true;
-            }           
+            Directions = SetDirections();
             while (Use && (Up.Count > 0 || Down.Count > 0))
             {
                 ScanE();
             }
         }
-        private void ScanE()
+        private bool SetDirections()
         {
+            if (Up.Count > 0 && Down.Count == 0)
+            {
+                return true;
+            }
+            if (Up.Count == 0 && Down.Count > 0)
+            {
+                return false;
+            }
+            if (Up.Count > 0 && Down.Count > 0)
+            {
+                if (position >= Down[Down.Count - 1])
+                    return false;
+                else return true;
+            }
+            return true;
+        }
+        private void ScanE()
+        {                       
             if (Up.Count > 0 && Directions)
             {
+                InsertU(6);
                 for (int i = 0; i < Up.Count();)
                 {                   
                     if (position < Up[i])   
@@ -139,13 +145,12 @@ namespace Elevator
                     {
                         i++;                                               
                     }                   
-                }
-                if (Down.Count > 0 && position == Down[Down.Count - 1])
-                    Down.RemoveAt(Down.Count - 1);
+                }                
                 Directions = !Directions;
             }
             if (Down.Count > 0 && !Directions)
             {
+                InsertD(1);
                 for (int i = Down.Count - 1; i >= 0; i--)
                 {                    
                     if (position > Down[i])
@@ -154,9 +159,7 @@ namespace Elevator
                         Run(position);
                         Down.RemoveAt(i);                                                                         
                     }                   
-                }
-                if (Up.Count > 0 && position == Up[0])
-                    Up.RemoveAt(0);
+                }               
                 Directions = !Directions;
             }
         }       

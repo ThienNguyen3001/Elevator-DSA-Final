@@ -17,7 +17,7 @@ namespace Elevator
         static void InputFromArr()
         {
             Elevator elevator = new Elevator();
-            string[] a = { "1", "3D", "3U", "2D", "5D", "6", "4D" };
+            string[] a = { "1", "3D", "3U", "2D", "5D", "4D", "2U" };
             //string[] a = { "2D", "3D", "3U", "2D", "5D", "5U", "4D" };
             //string[] a = { "2U", "3D", "3U", "2D", "6", "5U", "4D" };
             //string[] a = { "2U", "3D", "3U", "2D", "5D", "5U", "4D" };
