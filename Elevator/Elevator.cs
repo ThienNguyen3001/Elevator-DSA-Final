@@ -12,7 +12,7 @@ namespace Elevator
     {
         private static Dictionary<string, bool> D_elevator = new Dictionary<string, bool>();
         private static Dictionary<string, int> Floor = new Dictionary<string, int>();
-        public int Head; // vị trí thang máy hiện tại
+        public int position; // vị trí thang máy hiện tại
         private bool Directions; //true = up, false = down
         private List<int> Up;
         private List<int> Down;
@@ -23,7 +23,7 @@ namespace Elevator
             Input = new Queue<string>();
             Up = new List<int>();
             Down = new List<int>();
-            Head = 4;
+            position = 4;
             Use = true;
 
             D_elevator.Add("1", false);
@@ -114,7 +114,7 @@ namespace Elevator
             }
             if (Up.Count > 0 && Down.Count > 0)
             {
-                if (Head >= Down[Down.Count - 1])//23
+                if (position >= Down[Down.Count - 1])//23
                     Directions = false;
                 else Directions = true;
             }           
@@ -129,10 +129,10 @@ namespace Elevator
             {
                 for (int i = 0; i < Up.Count();)
                 {                   
-                    if (Head < Up[i])   
+                    if (position < Up[i])   
                     {
-                        Head = Up[i];
-                        Run(Head);
+                        position = Up[i];
+                        Run(position);
                         Up.RemoveAt(i);
                     }
                     else
@@ -140,7 +140,7 @@ namespace Elevator
                         i++;                                               
                     }                   
                 }
-                if (Down.Count > 0 && Head == Down[Down.Count - 1])
+                if (Down.Count > 0 && position == Down[Down.Count - 1])
                     Down.RemoveAt(Down.Count - 1);
                 Directions = !Directions;
             }
@@ -148,14 +148,14 @@ namespace Elevator
             {
                 for (int i = Down.Count - 1; i >= 0; i--)
                 {                    
-                    if (Head > Down[i])
+                    if (position > Down[i])
                     {
-                        Head = Down[i];
-                        Run(Head);
+                        position = Down[i];
+                        Run(position);
                         Down.RemoveAt(i);                                                                         
                     }                   
                 }
-                if (Up.Count > 0 && Head == Up[0])
+                if (Up.Count > 0 && position == Up[0])
                     Up.RemoveAt(0);
                 Directions = !Directions;
             }

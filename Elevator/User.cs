@@ -38,7 +38,7 @@ namespace Elevator
         {
             if (k >= 1 && k <= 6)
             {
-                if (k > elevator.Head)
+                if (k > elevator.position)
                 {
                     elevator.Insert(UserU[k]);
                 }
