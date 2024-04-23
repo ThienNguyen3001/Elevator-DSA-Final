@@ -10,20 +10,20 @@ namespace Elevator
 {
     public class Elevator
     {
-        private static Dictionary<string, bool> D_elevator = new Dictionary<string, bool>();
+        private static Dictionary<string, bool> D_elevator = new Dictionary<string, bool>(); 
         private static Dictionary<string, int> Floor = new Dictionary<string, int>();
         public int position; // vị trí thang máy hiện tại
         private bool Directions; //true = up, false = down
         private List<int> Up;
         private List<int> Down;
         private Queue<string> Input;
-        public bool Use;
+        public bool Use; // Thể hiện trạng thái hoạt động của thang máy
         public Elevator() 
         {
             Input = new Queue<string>();
             Up = new List<int>();
             Down = new List<int>();
-            position = 1;
+            position =1;
             Use = true;
 
             D_elevator.Add("1", false);
@@ -56,7 +56,7 @@ namespace Elevator
         private void InsertE()
         {
             string decision = Input.Dequeue();
-            if (D_elevator[decision])
+            if (D_elevator[decision]) 
             {
                 InsertU(Floor[decision]);
             }
@@ -114,10 +114,22 @@ namespace Elevator
         {
             if (Up.Count > 0 && Down.Count == 0)
             {
+                if (position > Up[0])
+                {
+                    InsertD(Up[0]);
+                    Up.RemoveAt(0);                    
+                    return false;
+                }                   
                 return true;
             }
             if (Up.Count == 0 && Down.Count > 0)
             {
+                if (position < Down[Down.Count -1])
+                {
+                    InsertU(Down[Down.Count - 1]);
+                    Down.RemoveAt(Down.Count - 1);
+                    return true;
+                }
                 return false;
             }
             if (Up.Count > 0 && Down.Count > 0)
@@ -131,8 +143,7 @@ namespace Elevator
         private void ScanE()
         {                       
             if (Up.Count > 0 && Directions)
-            {
-                InsertU(6);
+            {               
                 for (int i = 0; i < Up.Count();)
                 {                   
                     if (position < Up[i])   
@@ -140,32 +151,60 @@ namespace Elevator
                         position = Up[i];
                         Run(position);
                         Up.RemoveAt(i);
+                        ShowList();
                     }
                     else
                     {
                         i++;                                               
                     }                   
-                }                
-                Directions = !Directions;
+                }                                      
+                Directions = SetDirections();
             }
             if (Down.Count > 0 && !Directions)
-            {
-                InsertD(1);
+            {                
                 for (int i = Down.Count - 1; i >= 0; i--)
                 {                    
                     if (position > Down[i])
                     {
                         position = Down[i];
                         Run(position);
-                        Down.RemoveAt(i);                                                                         
+                        Down.RemoveAt(i);  
+                        ShowList();
                     }                   
-                }               
-                Directions = !Directions;
+                }                                      
+                Directions = SetDirections();
             }
         }       
         private void Run(int floor)
         {                      
             Console.WriteLine("Moving to floor " + floor);
+        }
+        private void ShowList()
+        {
+            Console.Write("UP: ");
+            if (Up.Count > 0)
+            {
+                for (int i = 0; i < Up.Count; i++)
+                {
+                    Console.Write(Up[i]+ "  ");
+                }
+            }
+            else
+                Console.Write("NULL");
+            
+            Console.WriteLine();
+            Console.Write("DOWN: ");
+            if (Down.Count > 0)
+            {
+                for (int i = 0; i < Down.Count; i++)
+                {
+                    Console.Write(Down[i]+ "  ");
+                }
+            }
+            else
+                Console.Write("NULL");
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }
