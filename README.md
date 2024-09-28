@@ -1,5 +1,5 @@
 # Elevator-DSA-Project
-This is the Algorithm and Data Structure project by our team, carried out by five members from the University of Economics Ho Chi Minh City (UEH). This project simulates the operation of an elevator based on the fundamental principles of queuing.
+This is the Algorithm and Data Structure project by our team, carried out by five members from the University of Economics Ho Chi Minh City (UEH). This project simulates the operation of an elevator based on the fundamental principles of queuing, using the SCAN algorithm..
 
 ## Members
 | **Tên** | **Github** |
