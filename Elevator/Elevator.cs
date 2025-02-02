@@ -4,6 +4,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Elevator
@@ -12,20 +13,19 @@ namespace Elevator
     {
         private static Dictionary<string, bool> D_elevator = new Dictionary<string, bool>(); 
         private static Dictionary<string, int> Floor = new Dictionary<string, int>();
-        public int position; // vị trí thang máy hiện tại
+        public int Position { get; set; } // vị trí thang máy hiện tại
         private bool Directions; //true = up, false = down
         private List<int> Up;
         private List<int> Down;
         private Queue<string> Input;
         public bool Use; // Thể hiện trạng thái hoạt động của thang máy
-        public Elevator() 
+        public Elevator(int pos) 
         {
             Input = new Queue<string>();
             Up = new List<int>();
             Down = new List<int>();
-            position =1;
             Use = true;
-
+            Position = pos;
             D_elevator.Add("1", false);
             D_elevator.Add("2D", false);
             D_elevator.Add("3D", false);
@@ -73,7 +73,7 @@ namespace Elevator
                     return;
             }
             Up.Add(buttom);
-            Up = InsertionSort(Up);
+            Up.Sort();
         }
         private void InsertD(int buttom)
         {
@@ -83,25 +83,9 @@ namespace Elevator
                     return;
             }
             Down.Add(buttom);
-            Down = InsertionSort(Down);
+            Down.Sort();
         }
-        private List<int> InsertionSort(List<int> a)
-        {
-            if (a.Count == 0) { return null; }
-            for (int i = 1; i < a.Count; i++)
-            {
-                int key = a[i];               
-                int j = i - 1;
-              
-                while (j >= 0 && a[j] > key)
-                {
-                    a[j + 1] = a[j];
-                    j--;
-                }
-                a[j + 1] = key;
-            }
-            return a;
-        }
+
         public void Use_Elevator()
         {
             Directions = SetDirections();
@@ -114,7 +98,7 @@ namespace Elevator
         {
             if (Up.Count > 0 && Down.Count == 0)
             {
-                if (position > Up[0])
+                if (Position > Up[0])
                 {
                     InsertD(Up[0]);
                     Up.RemoveAt(0);                    
@@ -124,7 +108,7 @@ namespace Elevator
             }
             if (Up.Count == 0 && Down.Count > 0)
             {
-                if (position < Down[Down.Count -1])
+                if (Position < Down[Down.Count -1])
                 {
                     InsertU(Down[Down.Count - 1]);
                     Down.RemoveAt(Down.Count - 1);
@@ -134,7 +118,7 @@ namespace Elevator
             }
             if (Up.Count > 0 && Down.Count > 0)
             {
-                if (position >= Down[Down.Count - 1])
+                if (Position >= Down[Down.Count - 1])
                     return false;
                 else return true;
             }
@@ -146,10 +130,10 @@ namespace Elevator
             {               
                 for (int i = 0; i < Up.Count();)
                 {                   
-                    if (position < Up[i])   
+                    if (Position < Up[i])   
                     {
-                        position = Up[i];
-                        Run(position);
+                        Position = Up[i];
+                        Run(Position);
                         Up.RemoveAt(i);
                         ShowList();
                     }
@@ -164,10 +148,10 @@ namespace Elevator
             {                
                 for (int i = Down.Count - 1; i >= 0; i--)
                 {                    
-                    if (position > Down[i])
+                    if (Position > Down[i])
                     {
-                        position = Down[i];
-                        Run(position);
+                        Position = Down[i];
+                        Run(Position);
                         Down.RemoveAt(i);  
                         ShowList();
                     }                   
@@ -205,6 +189,7 @@ namespace Elevator
                 Console.Write("NULL");
             Console.WriteLine();
             Console.WriteLine();
+            Thread.Sleep(300);
         }
     }
 }
